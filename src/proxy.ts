@@ -54,6 +54,7 @@ async function runProxy(
     clientName: 'MCP CLI Proxy',
     staticOAuthClientMetadata,
     staticOAuthClientInfo,
+    authorizeResource,
   })
 
   // Create the STDIO transport for local connections
