@@ -613,8 +613,8 @@ export async function parseCommandLineArgs(args: string[], usage: string) {
   let authorizeResource = '' // Default
   const resourceIndex = args.indexOf('--resource')
   if (resourceIndex !== -1 && resourceIndex < args.length - 1) {
-    host = args[resourceIndex + 1]
-    log(`Using authorize resource: ${resourceIndex}`)
+    authorizeResource = args[resourceIndex + 1]
+    log(`Using authorize resource: ${authorizeResource}`)
   }
 
   if (!serverUrl) {
