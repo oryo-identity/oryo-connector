@@ -173,7 +173,7 @@ export class NodeOAuthClientProvider implements OAuthClientProvider {
     if (this.authorizeResource) {
       authorizationUrl.searchParams.set('resource', this.authorizeResource)
     }
-    
+
     log(`\nPlease authorize this client by visiting:\n${authorizationUrl.toString()}\n`)
 
     if (DEBUG) debugLog('Redirecting to authorization URL', authorizationUrl.toString())
