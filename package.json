@@ -28,7 +28,8 @@
     "check": "prettier --check . && tsc",
     "lint-fix": "prettier --check . --write",
     "test:unit": "vitest run",
-    "test:unit:watch": "vitest"
+    "test:unit:watch": "vitest",
+    "oryo-proxy": "npx tsx --env-file '.env' ./src/proxy.ts http://localhost:7777/mcp/test-tenant-manual/agent-01 $MCP_AUTH_PROXY_PORT --debug --transport http-only"
   },
   "dependencies": {
     "express": "^4.21.2",
