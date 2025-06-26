@@ -32,8 +32,6 @@ const pid = process.pid
 // Global debug flag
 export let DEBUG = false
 
-const sessionId = crypto.randomBytes(32).toString('hex');
-
 // Helper function for timestamp formatting
 function getTimestamp(): string {
   const now = new Date()
@@ -208,7 +206,7 @@ export async function connectToRemoteServer(
             ...headers,
             ...(tokens?.access_token ? { Authorization: `Bearer ${tokens.access_token}` } : {}),
             Accept: 'text/event-stream',
-            "mcp-session-id": sessionId,
+            "mcp-session-id": "__GLOBAL_SESSION_ID__",
           } as Record<string, string>,
         }),
       )

@@ -10,6 +10,7 @@
  */
 
 import { EventEmitter } from 'events'
+import crypto from 'crypto'
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js'
 import {
   connectToRemoteServer,
@@ -85,6 +86,8 @@ async function runProxy(
   }
 
   try {
+    headers["mcp-session-id"] = "__GLOBAL_SESSION_ID__";
+
     // Connect to remote server with lazy authentication
     const remoteTransport = await connectToRemoteServer(null, serverUrl, authProvider, headers, authInitializer, transportStrategy)
 
