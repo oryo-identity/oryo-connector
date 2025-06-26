@@ -48,7 +48,7 @@ export class NodeOAuthClientProvider implements OAuthClientProvider {
     this.softwareVersion = options.softwareVersion || MCP_REMOTE_VERSION
     this.staticOAuthClientMetadata = options.staticOAuthClientMetadata
     this.staticOAuthClientInfo = options.staticOAuthClientInfo
-    this.authorizeResource = options.authorizeResource ?? MCP_AUTH_RESOURCE_VALUE
+    this.authorizeResource = options.authorizeResource || MCP_AUTH_RESOURCE_VALUE
     this._state = randomUUID()
   }
 
@@ -66,6 +66,7 @@ export class NodeOAuthClientProvider implements OAuthClientProvider {
       client_uri: this.clientUri,
       software_id: this.softwareId,
       software_version: this.softwareVersion,
+      client_id: MCP_AUTH_CLIENT_ID,
       ...this.staticOAuthClientMetadata,
     }
   }
@@ -84,14 +85,17 @@ export class NodeOAuthClientProvider implements OAuthClientProvider {
       if (DEBUG) debugLog('Returning static client info')
       return this.staticOAuthClientInfo
     }
-    const clientInfo = await readJsonFile<OAuthClientInformationFull>(
+    let clientInfo = await readJsonFile<OAuthClientInformationFull>(
       this.serverUrlHash,
       'client_info.json',
       OAuthClientInformationFullSchema,
     )
-    if (DEBUG) debugLog('Client info result:', clientInfo ? 'Found' : 'Not found')
-    if (clientInfo && MCP_AUTH_CLIENT_ID) {
-      clientInfo.client_id = MCP_AUTH_CLIENT_ID;
+    if (DEBUG) debugLog('Client info file result:', clientInfo ? 'Found' : 'Not found')
+    if (!clientInfo && MCP_AUTH_CLIENT_ID) {
+      clientInfo = {
+        redirect_uris: [this.redirectUrl],
+        client_id: MCP_AUTH_CLIENT_ID,
+      }
     }
     return clientInfo
   }
@@ -112,7 +116,7 @@ export class NodeOAuthClientProvider implements OAuthClientProvider {
   async tokens(): Promise<OAuthTokens | undefined> {
     if (DEBUG) {
       debugLog('Reading OAuth tokens')
-      debugLog('Token request stack trace:', new Error().stack)
+      // debugLog('Token request stack trace:', new Error().stack)
     }
 
     const tokens = await readJsonFile<OAuthTokens>(this.serverUrlHash, 'tokens.json', OAuthTokensSchema)
