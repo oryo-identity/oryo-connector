@@ -13,6 +13,12 @@ import { getServerUrlHash, log, debugLog, DEBUG, MCP_REMOTE_VERSION } from './ut
 import { sanitizeUrl } from 'strict-url-sanitise'
 import { randomUUID } from 'node:crypto'
 
+const {
+  MCP_AUTH_RESOURCE_PARAM_NAME = "resource",
+  MCP_AUTH_RESOURCE_VALUE,
+  MCP_AUTH_CLIENT_ID
+} = process.env;
+
 /**
  * Implements the OAuthClientProvider interface for Node.js environments.
  * Handles OAuth flow and token storage for MCP clients.
@@ -42,7 +48,7 @@ export class NodeOAuthClientProvider implements OAuthClientProvider {
     this.softwareVersion = options.softwareVersion || MCP_REMOTE_VERSION
     this.staticOAuthClientMetadata = options.staticOAuthClientMetadata
     this.staticOAuthClientInfo = options.staticOAuthClientInfo
-    this.authorizeResource = options.authorizeResource
+    this.authorizeResource = options.authorizeResource ?? MCP_AUTH_RESOURCE_VALUE
     this._state = randomUUID()
   }
 
@@ -84,6 +90,9 @@ export class NodeOAuthClientProvider implements OAuthClientProvider {
       OAuthClientInformationFullSchema,
     )
     if (DEBUG) debugLog('Client info result:', clientInfo ? 'Found' : 'Not found')
+    if (clientInfo && MCP_AUTH_CLIENT_ID) {
+      clientInfo.client_id = MCP_AUTH_CLIENT_ID;
+    }
     return clientInfo
   }
 
@@ -171,7 +180,7 @@ export class NodeOAuthClientProvider implements OAuthClientProvider {
    */
   async redirectToAuthorization(authorizationUrl: URL): Promise<void> {
     if (this.authorizeResource) {
-      authorizationUrl.searchParams.set('resource', this.authorizeResource)
+      authorizationUrl.searchParams.set(MCP_AUTH_RESOURCE_PARAM_NAME, this.authorizeResource)
     }
 
     log(`\nPlease authorize this client by visiting:\n${authorizationUrl.toString()}\n`)
