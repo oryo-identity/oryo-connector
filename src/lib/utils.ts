@@ -15,6 +15,8 @@ import { readFile, rm } from 'fs/promises'
 import path from 'path'
 import { version as MCP_REMOTE_VERSION } from '../../package.json'
 
+const { MCP_AUTH_PROXY_PORT } = process.env
+
 // Global type declaration for typescript
 declare global {
   var currentServerUrlHash: string | undefined
@@ -206,7 +208,7 @@ export async function connectToRemoteServer(
             ...headers,
             ...(tokens?.access_token ? { Authorization: `Bearer ${tokens.access_token}` } : {}),
             Accept: 'text/event-stream',
-            "mcp-session-id": "__GLOBAL_SESSION_ID__",
+            'mcp-session-id': '__GLOBAL_SESSION_ID__',
           } as Record<string, string>,
         }),
       )
@@ -549,7 +551,7 @@ export async function parseCommandLineArgs(args: string[], usage: string) {
   }
 
   const serverUrl = args[0]
-  const specifiedPort = args[1] ? parseInt(args[1]) : undefined
+  const specifiedPort = args[1] ? parseInt(args[1]) : MCP_AUTH_PROXY_PORT ? parseInt(MCP_AUTH_PROXY_PORT, 10) : undefined
   const allowHttp = args.includes('--allow-http')
 
   // Check for debug flag

@@ -86,7 +86,7 @@ async function runProxy(
   }
 
   try {
-    headers["mcp-session-id"] = "__GLOBAL_SESSION_ID__";
+    headers['mcp-session-id'] = '__GLOBAL_SESSION_ID__'
 
     // Connect to remote server with lazy authentication
     const remoteTransport = await connectToRemoteServer(null, serverUrl, authProvider, headers, authInitializer, transportStrategy)

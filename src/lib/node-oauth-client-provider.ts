@@ -13,11 +13,7 @@ import { getServerUrlHash, log, debugLog, DEBUG, MCP_REMOTE_VERSION } from './ut
 import { sanitizeUrl } from 'strict-url-sanitise'
 import { randomUUID } from 'node:crypto'
 
-const {
-  MCP_AUTH_RESOURCE_PARAM_NAME = "resource",
-  MCP_AUTH_RESOURCE_VALUE,
-  MCP_AUTH_CLIENT_ID
-} = process.env;
+const { MCP_AUTH_RESOURCE_PARAM_NAME = 'resource', MCP_AUTH_RESOURCE_VALUE, MCP_AUTH_CLIENT_ID } = process.env
 
 /**
  * Implements the OAuthClientProvider interface for Node.js environments.
