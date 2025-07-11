@@ -551,7 +551,8 @@ export async function parseCommandLineArgs(args: string[], usage: string) {
   }
 
   const serverUrl = args[0]
-  const specifiedPort = args[1] ? parseInt(args[1]) : MCP_AUTH_PROXY_PORT ? parseInt(MCP_AUTH_PROXY_PORT, 10) : undefined
+  const specifiedPort = MCP_AUTH_PROXY_PORT ? parseInt(MCP_AUTH_PROXY_PORT, 10) : undefined
+  
   const allowHttp = args.includes('--allow-http')
 
   // Check for debug flag
