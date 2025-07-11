@@ -29,7 +29,8 @@
     "lint-fix": "prettier --check . --write",
     "test:unit": "vitest run",
     "test:unit:watch": "vitest",
-    "oryo-proxy": "source .env && npx tsx --env-file '.env' ./src/proxy.ts http://localhost:7777/mcp/oryo/agent-01 $MCP_AUTH_PROXY_PORT --debug --transport http-only",
+    "proxy-local": "npx tsx --env-file '.env' ./src/proxy.ts http://localhost:7777/mcp/oryo/agent-01 --debug --transport http-only",
+    "proxy-do": "npx tsx --env-file '.env' ./src/proxy.ts https://oryo-backend-4nela.ondigitalocean.app/mcp/oryo/agent-01 --debug --transport http-only",
     "clear-auth": "rm -rf ~/.mcp-auth"
   },
   "dependencies": {
