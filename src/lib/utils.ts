@@ -208,7 +208,7 @@ export async function connectToRemoteServer(
             ...headers,
             ...(tokens?.access_token ? { Authorization: `Bearer ${tokens.access_token}` } : {}),
             Accept: 'text/event-stream',
-            'mcp-session-id': '__GLOBAL_SESSION_ID__',
+            'mcp-session-id': process.env.MCP_SESSION_ID || '',
           } as Record<string, string>,
         }),
       )
