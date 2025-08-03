@@ -179,6 +179,8 @@ export class NodeOAuthClientProvider implements OAuthClientProvider {
    * @param authorizationUrl The URL to redirect to
    */
   async redirectToAuthorization(authorizationUrl: URL): Promise<void> {
+    authorizationUrl.searchParams.set("scope", "mcp")
+    
     if (this.authorizeResource) {
       authorizationUrl.searchParams.set(MCP_AUTH_RESOURCE_PARAM_NAME, this.authorizeResource)
     }
