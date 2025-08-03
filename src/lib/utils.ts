@@ -338,7 +338,6 @@ export async function connectToRemoteServer(
         // Recursively call connectToRemoteServer with the updated recursion tracking
         return connectToRemoteServer(client, serverUrl, authProvider, headers, authInitializer, transportStrategy, recursionReasons)
       } catch (authError: any) {
-        log('Authorization error:', authError)
         if (DEBUG)
           debugLog('Authorization error during finishAuth', {
             errorMessage: authError.message,
