@@ -241,6 +241,7 @@ export class NodeOAuthClientProvider implements OAuthClientProvider {
         break
 
       case 'tokens':
+        console.log(await readTextFile(this.serverUrlHash, 'tokens.json'));
         await deleteConfigFile(this.serverUrlHash, 'tokens.json')
         if (DEBUG) debugLog('OAuth tokens invalidated')
         break
